@@ -31,13 +31,11 @@
  */
 package com.github.halibobor.leveldb.test;
 
-import static org.fusesource.leveldbjni.JniDBFactory.asString;
 import static org.fusesource.leveldbjni.JniDBFactory.bytes;
 import static org.fusesource.leveldbjni.JniDBFactory.factory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -98,6 +96,7 @@ public class DBTest extends TestCase {
         long e = System.currentTimeMillis();
         System.out.println( e -start);
         db.close();
+        factory.destroy(path, new Options());
     }
 
     private void statProperty(DB  db, int i) {
@@ -114,6 +113,5 @@ public class DBTest extends TestCase {
 
         }
     }
-
 
 }

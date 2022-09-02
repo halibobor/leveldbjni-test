@@ -14,15 +14,10 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.halibobor</groupId>
+            <groupId>${leveldbjni.gruop}</groupId>
             <artifactId>leveldbjni-all</artifactId>
-            <version>1.23.1</version>
+            <version>${leveldbjni.version}</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.fusesource.leveldbjni</groupId>
-            <artifactId>leveldbjni-all</artifactId>
-            <version>1.8</version>
-        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -31,5 +26,20 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>halibobor</id>
+            <properties>
+                <leveldbjni.gruop>com.halibobor</leveldbjni.gruop>
+                <leveldbjni.version>1.23.1</leveldbjni.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>fusesource</id>
+            <properties>
+                <leveldbjni.gruop>org.fusesource.leveldbjni</leveldbjni.gruop>
+                <leveldbjni.version>1.8</leveldbjni.version>
+            </properties>
+        </profile>
+    </profiles>
 </project>
