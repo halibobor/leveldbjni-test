@@ -37,11 +37,14 @@ import static org.fusesource.leveldbjni.JniDBFactory.factory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 import junit.framework.TestCase;
 import org.iq80.leveldb.DB;
+import org.iq80.leveldb.DBComparator;
 import org.iq80.leveldb.DBException;
 import org.iq80.leveldb.DBIterator;
 import org.iq80.leveldb.Options;
@@ -68,13 +71,28 @@ public class DBTest extends TestCase {
     public void testWriteBatch() throws IOException, DBException {
 
         Options options = new Options().createIfMissing(true);
+        options.comparator(new DBComparator() {
+            public int compare(byte[] o1, byte[] o2) {
+                return Byte.compare(o1[0],o2[0]);
+            }
+            public String name() {
+                return getName();
+            }
+            public byte[] findShortestSeparator(byte[] start, byte[] limit) {
+                return new byte[0];
+            }
+            public byte[] findShortSuccessor(byte[] key) {
+                return new byte[0];
+            }
+        });
 
         File path = getTestDirectory(getName());
         DB db = factory.open(path, options);
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 500 ; i++) {
+        Set<Byte> bytes = new HashSet<>();
+        for (int i = 0; i < 256 ; i++) {
+            bytes.add(bytes(i +"")[0]);
             try (WriteBatch batch = db.createWriteBatch()) {
-                db.delete(bytes((i - 30 ) + ""));
                 StringBuilder s = new StringBuilder();
                 for (int j = 0; j < 1024 * 1024 * 3; j++) {
                     s.append((char)(new Random().nextInt(128)));
@@ -92,9 +110,10 @@ public class DBTest extends TestCase {
                 c++;
             }
         }
-        Assert.assertEquals(30, c);
+        Assert.assertEquals(bytes.size(), 10);
+        Assert.assertEquals(bytes.size(), c);
         long e = System.currentTimeMillis();
-        System.out.println( e -start);
+        System.out.println(e -start);
         db.close();
         factory.destroy(path, new Options());
     }
