@@ -14,7 +14,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>${leveldbjni.gruop}</groupId>
+            <groupId>com.halibobor</groupId>
             <artifactId>leveldbjni-all</artifactId>
             <version>${leveldbjni.version}</version>
         </dependency>
@@ -30,15 +30,13 @@
         <profile>
             <id>halibobor</id>
             <properties>
-                <leveldbjni.gruop>com.halibobor</leveldbjni.gruop>
-                <leveldbjni.version>1.23.1</leveldbjni.version>
+                <leveldbjni.version>1.23.2</leveldbjni.version>
             </properties>
         </profile>
         <profile>
             <id>fusesource</id>
             <properties>
-                <leveldbjni.gruop>org.fusesource.leveldbjni</leveldbjni.gruop>
-                <leveldbjni.version>1.8</leveldbjni.version>
+                <leveldbjni.version>1.18.1</leveldbjni.version>
             </properties>
         </profile>
     </profiles>
